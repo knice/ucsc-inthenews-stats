@@ -2,20 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Seymour - Remove the uglies from your HTML.</title>
+    <title>In the News Statistics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A web app to remove the uglies from your HTML.">
+    <meta name="description" content="Data about UCSC In the News links.">
     <meta name="author" content="Rob Knight, for UC Santa Cruz">
 
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
 
   </head>
 
@@ -24,44 +18,18 @@
     <div class="container">
 
       <div class="page-header">
-        <h1>Seymour <small>a little app to remove the uglies from your text.</small></h1>
+        <h1>Statistics for <em>UCSC In the News</em> links.</h1>
       </div>
-      
+
       <div class="row">
-        <div class="span7">
+        <div class="span12">
           <%= yield %>
         </div>
-        <div class="span5">
-          <h2>How to use Seymour</h2>
-          <p>Paste your fugly text into the input field and then magic stuff happens!</p>
-          <ul>
-            <li>Seymour will try to remove the hidden uglies from your text.</li>
-            <li>Seymour will leave standard HTML like links, headlines, italic and bold text, and lists.</li>
-            <li>After Seymour is done, you can copy the text and paste it into your email, or</li>
-            <li>add simple formatting to the text (if you like) using the editor and <em>then</em> copy and paste it into your email.</li>
-          </ul>
-            <p><small>Send your questions, comments or feedback to <a href="mailto:&#x72;&#x61;&#x6B;&#x6E;&#x69;&#x67;&#x68;&#x74;&#x40;&#x75;&#x63;&#x73;&#x63;&#x2E;&#x65;&#x64;&#x75;">Rob Knight</a>, Web Developer, UC Santa Cruz.</small></p>
-        </div>
-      </div>        
+      </div>
 
     </div> <!-- /container -->
 
     <!-- Le javascript - Placed at the end of the document so the pages load faster -->
     <script src="js/bootstrap.min.js"></script>
-
-    <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-32032218-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
-    </script>
-
   </body>
 </html>

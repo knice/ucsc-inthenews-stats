@@ -1,3 +1,5 @@
-source :rubygems
+source 'https://rubygems.org'
 gem 'sinatra'
+gem 'nokogiri'
 gem 'sanitize'
+gem 'csv_shaper'
