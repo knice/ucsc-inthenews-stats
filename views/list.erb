@@ -3,10 +3,9 @@
 		<h3>Totals</h3>
 		<ul>
 			<li><%= @items.count %> links.</li>
-			<li>Local: <%= @items.css("[data-rating='local']").count %></li>
-			<li>Regional: <%= @items.css("[data-rating='regional']").count %></li>
-			<li>National: <%= @items.css("[data-rating='national']").count %></li>
-			<li>International: <%= @items.css("[data-rating='international']").count %></li>
+			<li>Tim: <%= @items.css("[data-submitter='stephens']").count %></li>
+			<li>Guy: <%= @items.css("[data-submitter='lasnier']").count %></li>
+			<li>Scott: <%= @items.css("[data-submitter='srapp']").count %></li>
 			<li><a href="/csv">Download as a CSV file</a>.</li>
 		</ul>
 	</div>
@@ -16,7 +15,7 @@
 <table border="1" cellspacing="5" cellpadding="5">
 <thead>
 	<th style="width:12%;">Date Published</th>
-	<th>Reach</th>
+	<th>Submitted by</th>
 	<th style="width:14%;">Source</th>
 	<th style="width:20%;">Title</th>
 	<th>Description</th>
@@ -24,10 +23,10 @@
 <% @items.sort_by  %>
 <% @items.each do |item| %>
 <tr>
-	<td><%= Time.at(item['data-published'].slice!(0..9).to_i).strftime('%B %d, %Y') %></td>
-	<td><%= item['data-rating'].capitalize %></td>
+	<td><%= item.css('.date span').text %></td>
+	<td><%= item['data-submitter'] %></td>
 	<td><%= item.css('.source').text %></td>
-	<td><%= item.css('h3 a[href]') %></td>
+	<td><%= item.css('h3 a') %></td>
 	<td><%= item.css('.description') %></td>
 </tr>
 <% end %>

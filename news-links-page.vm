@@ -1,0 +1,186 @@
+##
+##    Get Promoted links for the top of an In the News page
+##
+#set ($promoted = $_XPathTool.selectNodes($contentRoot,"//system-index-block//system-folder/system-block[system-data-structure[promote = 'Yes']]"))
+
+##
+##    Get Promoted links for the top of an In the News page
+##
+#set ($stickies = $_XPathTool.selectNodes($contentRoot,"//system-index-block//system-folder/system-block[system-data-structure[sticky = 'Yes']]"))
+
+##
+##    Sort the stickies list by last-modified date,
+##    so we get the link most recently made sticky.
+##
+$_SortTool.addSortCriterion("last-modified", "", "number", "descending", "")
+$_SortTool.sort($stickies)
+
+##
+##    Get Folders of links
+##
+#set ($folders = $_XPathTool.selectNodes($contentRoot,"//system-index-block/system-folder"))
+
+
+<style type="text/css">
+
+  .details { margin-bottom: 1.4em; }
+  .details .description { margin-left:64px !important; font-size:12px !important; }
+  .details .description p { font-size:12px !important; }
+  .feature-story div { font-size:0.9em; line-height:1.35; }
+
+</style>
+
+
+## 
+##    The next loop looks for links in the $stickies array
+##    If the $stickies array is empty,
+##    it shows the most recently 'promoted' link instead.
+##
+
+#if (!$stickies.isEmpty())
+
+  #foreach($i in $stickies.subList(0,1))
+
+    ## Need to get block ID and set in a variable to exclude below.
+    #set ($feature_id = $_XPathTool.selectSingleNode($i,"@id"))
+
+    ## Set variables
+        #set ($icon = $i.getChild("system-data-structure").getChild("thumbnail").getChild("path").text)
+        #set ($url = $_EscapeTool.xml($i.getChild("system-data-structure").getChild("url").text))
+        #set ($source = $_EscapeTool.xml($i.getChild("system-data-structure").getChild("source").text))
+        #set ($reach = $i.getChild("system-data-structure").getChild("reach").text)
+        #set ($headline = $_EscapeTool.xml($i.getChild("system-data-structure").getChild("headline").text))
+        #set ($description = $i.getChild("system-data-structure").getChild("description"))
+        #set ($desc = $_SerializerTool.serialize($description, true))
+
+    <div class="feature-story">
+        <span class="type">${source}</span>
+        <a href="${url}">
+            <img alt="${image-alt}" class="right" src="${icon}" />
+        </a>
+        <h3><a href="${url}">${headline}</a></h3>
+        <div>${_DisplayTool.alt($desc,$teaser)}</div>
+        <!-- ${feature_id} -->
+    </div>
+
+  #end
+
+#else
+
+  #foreach($i in $promoted.subList(0,1))
+
+    ## Need to get block ID and set in a variable to exclude below.
+    #set ($feature_id = $_XPathTool.selectSingleNode($i,"@id"))
+
+    ## Set variables
+        #set ($icon = $i.getChild("system-data-structure").getChild("thumbnail").getChild("path").text)
+        #set ($url = $_EscapeTool.xml($i.getChild("system-data-structure").getChild("url").text))
+        #set ($source = $_EscapeTool.xml($i.getChild("system-data-structure").getChild("source").text))
+        #set ($reach = $i.getChild("system-data-structure").getChild("reach").text)
+        #set ($headline = $_EscapeTool.xml($i.getChild("system-data-structure").getChild("headline").text))
+        #set ($description = $i.getChild("system-data-structure").getChild("description"))
+        #set ($desc = $_SerializerTool.serialize($description, true))
+
+    <div class="feature-story">
+        <span class="type">${source}</span>
+        <a href="${url}">
+            <img alt="${image-alt}" class="right" src="${icon}" />
+        </a>
+        <h3><a href="${url}">${headline}</a></h3>
+        <div>${_DisplayTool.alt($desc,$teaser)}</div>
+        <!-- ${feature_id} -->
+    </div>
+
+  #end
+
+#end 
+
+
+## Now show the links, ordered by folder placement
+#foreach($f in $folders)
+
+  #set ($name = $f.getChild("title").text)
+  #set ($months = $_XPathTool.selectNodes($f,"system-folder"))
+
+  <div class="links">
+    <!-- ${name} -->
+      #if(!$months.isEmpty())
+        #foreach($m in $months)
+
+          #set ($mname = $m.getChild("title").text)
+
+          #set ($posts = $_XPathTool.selectNodes($m,"system-block"))
+
+          #if(!$posts.isEmpty())
+          <ul class="archive-list">
+
+            #foreach($p in $posts)
+
+              #set ($item_id = $_XPathTool.selectSingleNode($p,"@id"))
+              #if($item_id != $feature_id)
+
+              ## Set variables
+              #if($p.getChild("system-data-structure").getChild("publish-date").text == '')
+                  #set ($publish-date = $p.getChild("created-on").text)
+              #else
+                  #set ($publish-date = $p.getChild("system-data-structure").getChild("publish-date").text)
+              #end 
+              #set ($submitter = $p.getChild("created-by").text)
+              #set ($icon = $p.getChild("system-data-structure").getChild("thumbnail").getChild("path").text)
+              #set ($url = $_EscapeTool.xml($p.getChild("system-data-structure").getChild("url").text))
+              #set ($source = $_EscapeTool.xml($p.getChild("system-data-structure").getChild("source").text))
+              ## Metadata about the reach of this story
+              #set ($reach = $p.getChild("system-data-structure").getChild("reach").text)
+              #set ($totals = $p.getChild("system-data-structure").getChild("totals"))
+              #if($totals.getChild("local").text != '')
+                #set ($local = $totals.getChild("local").text)
+              #else
+                #set ($local = 0)
+              #end
+              #if($totals.getChild("regional").text != '')
+                #set ($regional = $totals.getChild("regional").text)
+              #else
+                #set ($regional = 0)
+              #end              
+              #if($totals.getChild("national").text != '')
+                #set ($national = $totals.getChild("national").text)
+              #else
+                #set ($national = 0)
+              #end
+              #if($totals.getChild("international").text != '')
+                #set ($international = $totals.getChild("international").text)
+              #else
+                #set ($international = 0)
+              #end
+              ## Link information
+              #set ($headline = $_EscapeTool.xml($p.getChild("system-data-structure").getChild("headline").text))
+              #set ($description = $p.getChild("system-data-structure").getChild("description"))
+              #set ($desc = $_SerializerTool.serialize($description, true))
+              ## Get the date object and format it.
+              #set ($published = $_DateTool.getDate($publish-date))  
+              #set ($date = $_DateTool.format('MMMM dd, yyyy', $published))
+                
+              ## Output the HTML 
+              <li data-reach="${reach}" data-published="${publish-date}" data-submitter="${submitter}" data-local="${local}" data-regional="${regional}" data-national="${national}" data-international="${international}">
+                <div class="icon">
+                  <a href="${url}"><img src="${icon}" alt="news source icon" /></a>
+                </div>
+                <div class="details">    
+                  <span style="display:block;font-size:12px;"><span class="source" style="font-weight:bold;">${source}</span> - <span style="color:#979797;font-weight:normal;">${date}</span></span>
+                  <h3 style="font-size:16px !important;"><a href="${url}">${headline}</a></h3>
+                  <div class="description">${_DisplayTool.alt($desc,$teaser)}</div>
+                </div>
+              </li>
+
+              #end
+
+            #end          
+          </ul>
+
+          #end
+        #end        
+      #end
+
+  </div>
+
+#end
