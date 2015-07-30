@@ -18,7 +18,7 @@ get '/csv' do
 
 	t = Time.now.strftime("%d%B%Y")
 	attachment  t + '-inthenews.csv'
-	page = Nokogiri::HTML(open("http://news.ucsc.edu/inthenews/2015/index.html"))
+	page = Nokogiri::HTML(open("http://news.ucsc.edu/inthenews/2014/index.html"))
 	@items = page.css('.archive-list li')
 
 	csv_string = CsvShaper.encode do |csv|
