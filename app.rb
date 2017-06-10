@@ -14,13 +14,12 @@ end
 
 get '/:year/:format?' do
 
-
 	page = Nokogiri::HTML(open("https://news.ucsc.edu/inthenews/#{params['year']}/index.html"))
 	@items = page.css('.archive-list li')
   @year = params['year']
 
+  # If format = CSV
   if params['format'] == 'csv'
-    # If format = CSV
     attachment  "#{params['year']}-inthenews.csv"
     csv_string = CsvShaper.encode do |csv|
       csv.headers 'date', 'creator', 'source', 'title', 'description', 'url'
@@ -33,8 +32,9 @@ get '/:year/:format?' do
         csv.cell 'url', item.css('h3 a')[0]['href']
       end
     end
+
+  # If format = JSON
   elsif params['format'] == 'json'
-    # If format = JSON
     rows = []
     @items.each do |item|
       rows << {
@@ -46,8 +46,8 @@ get '/:year/:format?' do
       }
     end
     JSON.pretty_generate(rows)
+  # Else show the HTML list
   else
-    # Else show the HTML list
     erb :list
   end
 
