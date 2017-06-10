@@ -1,12 +1,13 @@
 <div class="row">
 	<div class="span3">
-		<h3>Totals</h3>
+		<h3>Totals for <%= @year %></h3>
 		<ul>
 			<li><%= @items.count %> links.</li>
 			<li>Tim: <%= @items.css("[data-submitter='stephens']").count %></li>
 			<li>Guy: <%= @items.css("[data-submitter='lasnier']").count %></li>
 			<li>Scott: <%= @items.css("[data-submitter='srapp']").count %></li>
-			<li><a href="/csv">Download as a CSV file</a>.</li>
+      <li>Jennifer: <%= @items.css("[data-submitter='jmcnulty']").count %></li>
+			<li><a href="/<%= @year %>/csv">Download as a CSV file</a>.</li>
 		</ul>
 	</div>
 </div>

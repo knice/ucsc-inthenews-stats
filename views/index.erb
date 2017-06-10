@@ -1,0 +1,22 @@
+<div class="row">
+	<div class="span3">
+    <p>Fetch data for In the News links</p>
+	</div>
+</div>
+
+<div style="margin-bottom: 2em;">
+<table border="1" cellspacing="5" cellpadding="5">
+<thead>
+	<th style="width:12%;">Year</th>
+	<th>CSV</th>
+	<th>JSON</th>
+</thead>
+<% @years.each do |year| %>
+<tr>
+	<td><a href="/<%= year %>/"><%= year %></a></td>
+	<td><a href="/<%= year %>/csv">/<%= year %>/csv</a></td>
+	<td><a href="/<%= year %>/json">/<%= year %>/json</a></td>
+</tr>
+<% end %>
+</table>
+</div>
